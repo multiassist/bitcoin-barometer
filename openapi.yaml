@@ -1,0 +1,45 @@
+openapi: 3.0.3
+info:
+  title: Bitcoin Barometer
+  version: "1.0"
+  description: >-
+    Free Bitcoin market-cycle Heat Score (0-100) and zone from 8 indicators; MVRV-Z, NUPL and
+    Puell computed from our own full node. No key. Educational information, not financial advice.
+  license:
+    name: CC BY 4.0 (data)
+    url: https://creativecommons.org/licenses/by/4.0/
+  contact:
+    url: https://nakamotonotes.com/open
+externalDocs:
+  url: https://nakamotonotes.com/methodology
+servers:
+  - url: https://nakamotonotes.com
+paths:
+  /open/barometer.json:
+    get:
+      summary: Current Heat Score and zone
+      responses:
+        "200":
+          description: Current reading
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [score, heatScore, zone, computedAt]
+                properties:
+                  score: { type: integer, minimum: 0, maximum: 100 }
+                  heatScore: { type: number, minimum: 0, maximum: 1 }
+                  zone: { type: string, enum: [Chill, Neutral, Heated, Euphoric] }
+                  computedAt: { type: string, format: date-time }
+                  degraded: { type: array, items: { type: string } }
+                  indicators: { type: object, additionalProperties: true }
+                  methodology: { type: string, format: uri }
+                  license: { type: string }
+        "429": { description: Rate limit (60 requests/min per IP), see Retry-After }
+        "503": { description: No reading can be produced right now; never a stale value }
+  /open/barometer-history.csv:
+    get:
+      summary: Daily history (date,score,zone)
+      responses:
+        "200": { description: CSV, content: { text/csv: { schema: { type: string } } } }
+        "503": { description: History unavailable }

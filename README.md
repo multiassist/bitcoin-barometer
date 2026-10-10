@@ -38,7 +38,7 @@ Example response:
 curl -s https://nakamotonotes.com/open/barometer.json
 ```
 
-More in [`examples/`](examples): [curl](examples/curl.sh), [Python](examples/barometer.py), [JavaScript](examples/barometer.mjs).
+OpenAPI spec: [`openapi.yaml`](openapi.yaml). More in [`examples/`](examples): [curl](examples/curl.sh), [Python](examples/barometer.py), [JavaScript](examples/barometer.mjs).
 
 ## Embed the widget
 
