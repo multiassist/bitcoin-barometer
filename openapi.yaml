@@ -35,11 +35,12 @@ paths:
                   indicators: { type: object, additionalProperties: true }
                   methodology: { type: string, format: uri }
                   license: { type: string }
-        "429": { description: Rate limit (60 requests/min per IP), see Retry-After }
+        "429": { description: Rate limit (10 requests/min per IP), see Retry-After }
         "503": { description: No reading can be produced right now; never a stale value }
   /open/barometer-history.csv:
     get:
-      summary: Daily history (date,score,zone)
+      summary: Daily history since 2014-01-01 (date,score,zone)
       responses:
         "200": { description: CSV, content: { text/csv: { schema: { type: string } } } }
+        "429": { description: Rate limit (10 requests/min per IP), see Retry-After }
         "503": { description: History unavailable }

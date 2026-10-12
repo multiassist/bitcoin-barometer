@@ -10,23 +10,23 @@ Free to use. No key, no sign-up, HTTPS, CORS open.
 
 | Endpoint | Returns |
 |---|---|
-| `GET https://nakamotonotes.com/open/barometer.json` | current score, zone, time computed, three indicator readings, `degraded` list |
-| `GET https://nakamotonotes.com/open/barometer-history.csv` | daily `date,score,zone` |
+| `GET https://nakamotonotes.com/open/barometer.json` | current score, zone, time computed, indicator readings, `degraded` list |
+| `GET https://nakamotonotes.com/open/barometer-history.csv` | daily `date,score,zone` since 2014-01-01 (one row per day, zone written like `Neutral Zone`) |
 
-- Limit: 60 requests per minute per IP. Answers are cached for 5 minutes.
+- Limit: 10 requests per minute per IP. Answers are cached for 5 minutes.
 - If a reading cannot be produced, the API answers **503** instead of a number. It never sends a stale or made-up value.
-- The history CSV is being rebuilt from our own node data. Until that finishes it returns 503.
+- The history CSV is live and covers every day from 2014-01-01. A few days are carried forward from adjacent readings where an input was missing.
 
 Example response:
 
 ```json
 {
-  "score": 25,
-  "heatScore": 0.254,
+  "score": 26,
+  "heatScore": 0.261,
   "zone": "Neutral",
-  "computedAt": "2026-10-10T08:08:04.608Z",
+  "computedAt": "2026-10-12T12:10:18.341Z",
   "degraded": [],
-  "indicators": { "monthlyRSI": 52.84, "mayerMultiple": "1.15", "piCycleProximity": 46.14 },
+  "indicators": { "monthlyRSI": 53.08, "mayerMultiple": "1.16", "piCycleProximity": 46.3, "mvrvZScore": 0.95, "nupl": 35.61, "puellMultiple": 1.15, "searchInterestHeat": 13 },
   "methodology": "https://nakamotonotes.com/methodology",
   "license": "CC BY 4.0 — attribute NakamotoNotes"
 }
@@ -47,6 +47,8 @@ Paste one line where the widget should appear:
 ```html
 <script src="https://nakamotonotes.com/open/embed.js"></script>
 ```
+
+Two sizes: card (380 x 470) and compact (340 x 185). Options are documented at [nakamotonotes.com/open](https://nakamotonotes.com/open).
 
 ![Bitcoin Barometer widget](widget.png)
 
